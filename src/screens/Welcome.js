@@ -3,20 +3,20 @@ import React from 'react'
 import pattern from '../../assets/pattern.png'
 import welcomelogo from '../../assets/welcomelogo.png'
 import { button1 } from '../common/button'
-const Welcome = ({ }) => {
+const Welcome = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Image style={styles.patternbg} source={pattern} />
 
             <View style={styles.container1}>
 
-                <Image style={styles.logo} source={welcomelogo} />
+                {/* <Image style={styles.logo} source={welcomelogo} /> */}
                 <Text style={button1}
                     onPress={() => navigation.navigate('login')}
                 >Login</Text>
 
                 <Text style={button1}
-
+                    onPress={() => navigation.navigate('signup')}
                 >Signup</Text>
 
 

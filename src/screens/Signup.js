@@ -5,7 +5,7 @@ import logo from '../../assets/mainlogo.png'
 import { button1 } from '../common/button'
 import { errormessage, formgroup, head1, head2, input, input1, label, link, link2 } from '../common/formcss'
 
-const Signup = () => {
+const Signup = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Image style={styles.patternbg} source={pattern} />
@@ -17,12 +17,13 @@ const Signup = () => {
         <ScrollView style={styles.s2}>
           <Text style={head1}>Create a New Account</Text>
           <Text style={link2}>Already Registered?&nbsp;
-            <Text style={link}
 
-            >
-              Login here
-            </Text>
-          </Text>
+          <Text style={link}
+                            onPress={() => navigation.navigate('login')}
+                        >
+                            Login here
+                        </Text>
+          </Text> 
 
           <View style={formgroup}>
             <Text style={label}>Name</Text>

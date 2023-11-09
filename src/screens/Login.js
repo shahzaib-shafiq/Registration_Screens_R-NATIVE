@@ -5,7 +5,7 @@ import WelcomeLogo from '../../assets/welcomelogo.png'
 import { button1 } from '../common/button'
 import logo from '../../assets/mainlogo.png'
 import { errormessage, formgroup, head1, head2, input, label, link, link2 } from '../common/formcss'
-const Login = () => {
+const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image style={styles.patternbg} source={pattern} />
@@ -42,10 +42,10 @@ const Login = () => {
                     <View style={styles.fp}>
                         <Text style={link}>Forgot Password?</Text>
                     </View>
-                    <Text style={button1}>Login
-                    </Text>
                     <Text style={link2}>Don't have an account?&nbsp;
-                        <Text style={link}>
+                        <Text style={link}
+                            onPress={() => navigation.navigate('signup')}
+                        >
                             Create a new account
                         </Text>
                     </Text>
