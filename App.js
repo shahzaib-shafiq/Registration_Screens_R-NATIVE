@@ -35,6 +35,25 @@ export default function App() {
         } 
         />
         
+        <Stack.Screen name="homepage" component={Homepage}
+          options={
+            {
+              headerShown: false
+            }
+          }
+
+        />
+
+        {/* <Stack.Screen name="verification" component={Verification}
+          options={
+            {
+              headerShown: false
+            }
+          }
+
+        />
+ */}
+
       </Stack.Navigator>
     </NavigationContainer>
      
