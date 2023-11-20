@@ -10,17 +10,13 @@ const Welcome = ({ navigation }) => {
 
             <View style={styles.container1}>
 
-                {/* <Image style={styles.logo} source={welcomelogo} /> */}
+                <Image style={styles.logo} source={welcomelogo} />
                 <Text style={button1}
                     onPress={() => navigation.navigate('login')}
                 >Login</Text>
-
                 <Text style={button1}
                     onPress={() => navigation.navigate('signup')}
                 >Signup</Text>
-
-
-
             </View>
         </View>
     )

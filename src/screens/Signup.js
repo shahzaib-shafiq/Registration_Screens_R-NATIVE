@@ -21,7 +21,7 @@ const Signup = ({
     const [errormsg, setErrormsg] = useState(null);
 
     const Sendtobackend = () => {
-         console.log(fdata);
+        // console.log(fdata);
         if (fdata.name == '' ||
             fdata.email == '' ||
             fdata.password == '' ||
@@ -37,7 +37,7 @@ const Signup = ({
                 return;
             }
             else {
-                fetch('http://10.0.2.2.:3000/signup', {
+                fetch('http://10.0.2.2.:3000/verify', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -1,45 +1,66 @@
 import { StyleSheet, Text, View, Image, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import pattern from '../../assets/pattern.png'
 import logo from '../../assets/mainlogo.png'
 import { button1 } from '../common/button'
-import { errormessage, formgroup, head1, head2, input, label, link, link2 } from '../common/formcss'
+import { bwmessage, errormessage, formgroup, head1, head2, input, label, link, link2 } from '../common/formcss'
 
-const Login = ({ navigation }) => {
-    const [fdata, setFdata] = useState({
-        email: '',
-        password: ''
-    })
+const Verification = ({ navigation, route }) => {
+    const { userdata } = route.params;
 
     const [errormsg, setErrormsg] = useState(null);
+    const [userCode, setUserCode] = useState('XXXX');
+    const [actualCode, setActualCode] = useState(null);
+
+    useEffect(() => {
+        setActualCode(userdata[0]?.VerificationCode);
+    }, [])
 
     const Sendtobackend = () => {
-        // console.log(fdata);
-        if (fdata.email == '' || fdata.password == '') {
-            setErrormsg('All fields are required');
+        // console.log(userCode);
+        // console.log(actualCode);
+
+        if (userCode == 'XXXX' || userCode == '') {
+            setErrormsg('Please enter the code');
             return;
         }
-        else {
-            fetch('http://10.0.2.2:3000/signin', {
+
+        else if (userCode == actualCode) {
+            // console.log('correct code');
+            const fdata = {
+                email: userdata[0]?.email,
+                password: userdata[0]?.password,
+                name: userdata[0]?.name,
+                address: userdata[0]?.address,
+                dob: userdata[0]?.dob,
+            }
+
+            fetch('http://10.0.2.2.:3000/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(fdata)
             })
-                .then(res => res.json()).then(
-                    data => {
-                        // console.log(data);
-                        if (data.error) {
-                            setErrormsg(data.error);
-                        }
-                        else {
-                            alert('logged successfully');
-                            navigation.navigate('homepage');
-                        }
+                .then(res => res.json())
+                .then(data => {
+                    // console.log(data);
+                    if (data.message === 'User Registered Successfully') {
+                        alert(data.message);
+                        navigation.navigate('login')
                     }
-                )
+                    else {
+                        alert("Something went wrong !! Try Signing Up Again");
+
+                    }
+                })
         }
+        else if (userCode != actualCode) {
+            setErrormsg('Incorrect code');
+            return;
+        }
+
+
     }
     return (
         <View style={styles.container}>
@@ -53,28 +74,20 @@ const Login = ({ navigation }) => {
                 </View>
                 <View style={styles.s2}>
 
-                    <Text style={head1}>Login</Text>
-                    <Text style={head2}>Sign in to continue</Text>
+                    <Text style={head1}>Verification</Text>
+                    <Text style={bwmessage}>A Code has been sent to you on your email</Text>
                     {
                         errormsg ? <Text style={errormessage}>{errormsg}</Text> : null
                     }
-                    <View style={formgroup}>
-                        <Text style={label}>Email</Text>
-                        <TextInput style={input}
-                            placeholder="Enter your email"
 
-                            onPressIn={() => setErrormsg(null)}
-                            onChangeText={(text) => setFdata({ ...fdata, email: text })}
-                        />
-                    </View>
                     <View style={formgroup}>
-                        <Text style={label}>Password</Text>
+                        <Text style={label}>Code</Text>
                         <TextInput style={input}
-                            placeholder="Enter your password"
+                            placeholder="Enter 6 digit Verification Code"
 
                             secureTextEntry={true}
 
-                            onChangeText={(text) => setFdata({ ...fdata, password: text })}
+                            onChangeText={(text) => setUserCode(text)}
                             onPressIn={() => setErrormsg(null)}
 
                         />
@@ -84,7 +97,7 @@ const Login = ({ navigation }) => {
                     </View>
                     <Text style={button1}
                         onPress={() => Sendtobackend()}
-                    >Login</Text>
+                    >Verify</Text>
                     <Text style={link2}>Don't have an account?&nbsp;
                         <Text style={link}
                             onPress={() => navigation.navigate('signup')}
@@ -98,7 +111,7 @@ const Login = ({ navigation }) => {
     )
 }
 
-export default Login
+export default Verification
 
 const styles = StyleSheet.create({
     container: {
